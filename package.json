@@ -1,0 +1,48 @@
+{
+  "name": "umd-util",
+  "version": "1.0.0",
+  "description": "Export JavaScript files in UMD (Universal Module Definition) format.",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint *.js --max-warnings 0",
+    "lint:fix": "eslint *.js --fix --max-warnings 0",
+    "test": "mocha"
+  },
+  "files": [
+    "index.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jonkemp/umd-util.git"
+  },
+  "keywords": [
+    "umd",
+    "amd",
+    "cjs",
+    "commonjs",
+    "module",
+    "utility",
+    "util"
+  ],
+  "author": {
+    "name": "Jonathan Kemp",
+    "email": "kempdogg@gmail.com",
+    "url": "http://jonkemp.com/"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jonkemp/umd-util/issues"
+  },
+  "homepage": "https://github.com/jonkemp/umd-util#readme",
+  "devDependencies": {
+    "babel-eslint": "^10.0.3",
+    "eslint": "^6.8.0",
+    "js-beautify": "^1.10.3",
+    "mocha": "^7.0.0",
+    "temp-dir": "^2.0.0"
+  },
+  "dependencies": {
+    "libumd": "^0.9.0",
+    "make-dir": "^3.0.0"
+  }
+}
