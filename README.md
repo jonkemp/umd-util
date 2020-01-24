@@ -2,6 +2,8 @@
 
 > Export JavaScript files in UMD (Universal Module Definition) format.
 
+[Universal Module Definition (UMD)](https://github.com/umdjs/umd) modules are capable of working everywhere, be it in the client, on the server or elsewhere. The UMD pattern typically attempts to offer compatibility with the most popular script loaders of the day (e.g RequireJS amongst others).
+
 ## Features
 
 - Small utility script to export files in UMD format.
