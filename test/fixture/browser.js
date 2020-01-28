@@ -1,24 +1,7 @@
-(function (root, factory) {
-  if (root === undefined && window !== undefined) root = window;
-  if (typeof define === 'function' && define.amd) {
-    // AMD. Register as an anonymous module unless amdModuleId is set
-    define([], function () {
-      return (root['test'] = factory());
-    });
-  } else if (typeof module === 'object' && module.exports) {
-    // Node. Does not work with strict CommonJS, but
-    // only CommonJS-like environments that support module.exports,
-    // like Node.
-    module.exports = factory();
-  } else {
-    root['test'] = factory();
-  }
-}(this, function () {
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.test = f()}})(function(){var define,module,exports;
+	return function test() {
+		console.log('executed');
 
-return function test() {
-  console.log('executed');
-
-  window.close();
-};
-
-}));
+		window.close();
+	};
+	});
