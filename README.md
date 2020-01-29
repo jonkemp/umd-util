@@ -41,28 +41,28 @@ umdify('moduleName', 'umd', 'index.js', true);
 
 #### name
 
-Type: `string`
+Type: `string`  
 Default: `none`
 
 The name of the module.
 
 #### directory
 
-Type: `string`
+Type: `string`  
 Default: `umd`
 
 Write files to this directory.
 
 #### path
 
-Type: `string`
+Type: `string`  
 Default: `none`
 
 Path to the file.
 
 #### commonJS
 
-Type: `boolean`
+Type: `boolean`  
 Default: `false`
 
 CommonJS support.
