@@ -7,7 +7,7 @@
 ## Features
 
 - Small utility script to export files in UMD format.
-- Supports npm scripts.
+- Supports CommonJS format.
 - Task managers not required. 😄
 
 
@@ -25,14 +25,26 @@ $ npm install umd-util
 ```js
 const umdify = require('umd-util');
 
-umdify('dist', 'index.js');
+// browser format
+umdify('moduleName', 'dist', 'index.js');
 //=> dist/index.js
+
+// CommonJS format
+umdify('moduleName', 'umd', 'index.js', true);
+//=> umd/index.js
 ```
 
 
 ## API
 
-### umdify(directory, path)
+### umdify(name, directory, path, commonJS)
+
+#### name
+
+Type: `string`
+Default: `none`
+
+The name of the module.
 
 #### directory
 
@@ -47,6 +59,13 @@ Type: `string`
 Default: `none`
 
 Path to the file.
+
+#### commonJS
+
+Type: `boolean`
+Default: `false`
+
+CommonJS support.
 
 ## License
 
