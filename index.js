@@ -1,16 +1,17 @@
 const fs = require('fs');
 const path = require('path');
-const makeDir = require('make-dir');
+const { promisify } = require('util');
 const umdify = require('umd');
+const writeFileAtomic = require('write-file-atomic');
 
-module.exports = (moduleName, fileDir, filePath, commonJS) => {
-	try {
-		const dir = fileDir || 'umd';
-		const umdFilePath = path.join(dir, filePath);
-		const fileContent = fs.readFileSync(filePath, 'utf8');
-		makeDir.sync(path.dirname(umdFilePath));
-		fs.writeFileSync(umdFilePath, umdify(moduleName, fileContent, commonJS));
-	} catch (error) {
-		throw new Error(error);
-	}
+const readFile = promisify(fs.readFile);
+
+module.exports = async (moduleName, filePath, options) => {
+	const destination = options.destination || 'umd';
+	const commonJS = options.commonJS || false;
+	const umdFilePath = path.join(destination, filePath);
+	const fileContent = await readFile(filePath, 'utf8');
+	const output = umdify(moduleName, fileContent, commonJS);
+
+	await writeFileAtomic(umdFilePath, output);
 };
