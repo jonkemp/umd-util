@@ -26,18 +26,23 @@ $ npm install umd-util
 const umdify = require('umd-util');
 
 // browser format
-umdify('moduleName', 'dist', 'index.js');
+umdify('moduleName', 'index.js', {
+	destination: 'dist'
+});
 //=> dist/index.js
 
 // CommonJS format
-umdify('moduleName', 'umd', 'index.js', true);
+umdify('moduleName', 'index.js', {
+	commonJS: true,
+	destination: 'umd'
+});
 //=> umd/index.js
 ```
 
 
 ## API
 
-### umdify(name, directory, path, commonJS)
+### umdify(name, source, options?)
 
 #### name
 
@@ -46,26 +51,30 @@ Default: `none`
 
 The name of the module.
 
-#### directory
-
-Type: `string`  
-Default: `umd`
-
-Write files to this directory.
-
-#### path
+#### source
 
 Type: `string`  
 Default: `none`
 
-Path to the file.
+File to export.
 
-#### commonJS
+#### options
+
+Type: `object`
+
+##### destination
+
+Type: `string`  
+Default: `umd`
+
+Destination directory.
+
+##### commonJS
 
 Type: `boolean`  
 Default: `false`
 
-CommonJS support.
+CommonJS export.
 
 ## License
 
