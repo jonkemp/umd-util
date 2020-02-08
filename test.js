@@ -421,3 +421,30 @@ describe('umdify', () => {
 		});
 	});
 });
+
+describe('umdify.sync', () => {
+	it('should return a umd compatible script', () => {
+		const compare = fs.readFileSync(path.join(__dirname, 'fixture', 'web/testExports.js'), 'utf-8');
+		const assertContents = contents => {
+			try {
+				assert.equal(contents, compare, `Wrapped file content is different from test template web/testExports.js`);
+			} catch(e) {
+				console.log(e);
+				process.exit(0);
+			}
+		};
+		const tempDirectory = tempy.directory();
+
+		umdify.sync('fixture/foo.js', {
+			templateName: 'web',
+			exports() {
+				return 'Foo.Bar';
+			},
+			destination: tempDirectory
+		});
+
+		const actual = fs.readFileSync(path.join(tempDirectory, 'fixture/foo.js'), 'utf-8');
+
+		assertContents(actual);
+	});
+});
