@@ -2,40 +2,422 @@ const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
 const tempy = require('tempy');
-const beautify = require('js-beautify').js;
 const umdify = require('./index.js');
 
+const genericTest = async (options, fixtureFilename) => {
+	const compare = fs.readFileSync(path.join(__dirname, 'test', 'fixture', fixtureFilename), 'utf-8');
+	const assertContents = contents => {
+		try {
+			assert.equal(contents, compare, `Wrapped file content is different from test template ${fixtureFilename}`);
+		} catch(e) {
+			console.log(e);
+			process.exit(0);
+		}
+	};
+	const tempDirectory = tempy.directory();
+
+	options.destination = tempDirectory;
+	await umdify('test/foo.js', options);
+
+	const actual = fs.readFileSync(path.join(tempDirectory, 'test/foo.js'), 'utf-8');
+
+	assertContents(actual);
+};
+
 describe('umdify', () => {
-	it('should return a umd compatible script from a module with browser globals', async () => {
-		const beautifyOptions = {
-			indent_with_tabs: true
-		};
-		const tempDirectory = tempy.directory();
+	describe('amd', () => {
+		it('should return a umd compatible script', () => {
+			genericTest(
+				{
+					templateName: 'amd',
+					exports() {
+						return 'Foo.Bar';
+					}
+				},
+				'amd/testExports.js'
+			);
 
-		await umdify('test', path.join('test', 'browser.js'), {
-			destination: tempDirectory
+			genericTest(
+				{
+					templateName: 'amd',
+					namespace() {
+						return 'Foo.Bar';
+					}
+				},
+				'amd/testNamespace.js'
+			);
+
+			genericTest(
+				{
+					templateName: 'amd',
+					dependencies() {
+						return [
+							'm0',
+							{
+								name: 'm1',
+								amd: 'm1amd',
+								cjs: 'm1cjs',
+								global: 'm1glob',
+								param: 'm1param'
+							},
+							{
+								name: 'm2',
+								amd: 'm2amd',
+								cjs: 'm2cjs',
+								global: 'm2glob',
+								param: 'm2param'
+							}
+						];
+					}
+				},
+				'amd/testWithDependencies.js'
+			);
+
+			genericTest(
+				{
+					templateName: 'amd'
+				},
+				'amd/testWithoutDependencies.js'
+			);
 		});
-
-		const code = fs.readFileSync(path.join(tempDirectory, 'test', 'browser.js'), 'utf-8');
-		const compare = fs.readFileSync(path.join(__dirname, 'test', 'fixture', 'browser.js'), 'utf-8');
-
-		assert.equal(beautify(code, beautifyOptions), beautify(compare, beautifyOptions));
 	});
 
-	it('should return a umd compatible script from a CommonJS module', async () => {
-		const beautifyOptions = {
-			indent_with_tabs: true
-		};
-		const tempDirectory = tempy.directory();
+	describe('amdCommonWeb', () => {
+		it('should return a umd compatible script', () => {
+			genericTest(
+				{
+					templateName: 'amdCommonWeb',
+					exports() {
+						return 'Foo';
+					}
+				},
+				'amdCommonWeb/testExports.js'
+			);
 
-		await umdify('myFunc', path.join('test', 'cjs.js'), {
-			commonJS: true,
-			destination: tempDirectory
+			genericTest(
+				{
+					templateName: 'amdCommonWeb',
+					exports() {
+						return {
+							FooFunc: 'Foo',
+							FooLength: 'Foo.length'
+						};
+					}
+				},
+				'amdCommonWeb/testExportsMap.js'
+			);
+
+			genericTest(
+				{
+					templateName: 'amdCommonWeb',
+					namespace() {
+						return 'Foo.Bar';
+					}
+				},
+				'amdCommonWeb/testNamespace.js'
+			);
+
+			genericTest(
+				{
+					templateName: 'amdCommonWeb',
+					dependencies() {
+						return [
+							'm0',
+							{
+								name: 'm1',
+								amd: 'm1amd',
+								cjs: 'm1cjs',
+								global: 'm1glob',
+								param: 'm1param'
+							},
+							{
+								name: 'm2',
+								amd: 'm2amd',
+								cjs: 'm2cjs',
+								global: 'm2glob',
+								param: 'm2param'
+							}
+						];
+					}
+				},
+				'amdCommonWeb/testWithDependencies.js'
+			);
+
+			genericTest(
+				{
+					templateName: 'amdCommonWeb'
+				},
+				'amdCommonWeb/testWithoutDependencies.js'
+			);
 		});
+	});
 
-		const code = fs.readFileSync(path.join(tempDirectory, 'test', 'cjs.js'), 'utf-8');
-		const compare = fs.readFileSync(path.join(__dirname, 'test', 'fixture', 'cjs.js'), 'utf-8');
+	describe('amdWeb', () => {
+		it('should return a umd compatible script', () => {
+			genericTest(
+				{
+					templateName: 'amdWeb',
+					exports() {
+						return 'Foo.Bar';
+					}
+				},
+				'amdWeb/testExports.js'
+			);
 
-		assert.equal(beautify(code, beautifyOptions), beautify(compare, beautifyOptions));
+			genericTest(
+				{
+					templateName: 'amdWeb',
+					namespace() {
+						return 'Foo.Bar';
+					}
+				},
+				'amdWeb/testNamespace.js'
+			);
+
+			genericTest(
+				{
+					templateName: 'amdWeb',
+					dependencies() {
+						return [
+							'm0',
+							{
+								name: 'm1',
+								amd: 'm1amd',
+								cjs: 'm1cjs',
+								global: 'm1glob',
+								param: 'm1param'
+							},
+							{
+								name: 'm2',
+								amd: 'm2amd',
+								cjs: 'm2cjs',
+								global: 'm2glob',
+								param: 'm2param'
+							}
+						];
+					}
+				},
+				'amdWeb/testWithDependencies.js'
+			);
+
+			genericTest(
+				{
+					templateName: 'amdWeb'
+				},
+				'amdWeb/testWithoutDependencies.js'
+			);
+		});
+	});
+
+	describe('common', () => {
+		it('should return a umd compatible script', () => {
+			genericTest(
+				{
+					templateName: 'common',
+					exports() {
+						return {
+							FooBar: 'Foo.Bar'
+						};
+					}
+				},
+				'common/testExports.js'
+			);
+
+			genericTest(
+				{
+					templateName: 'common',
+					dependencies() {
+						return [
+							'm0',
+							{
+								name: 'm1',
+								amd: 'm1amd',
+								cjs: 'm1cjs',
+								global: 'm1glob',
+								param: 'm1param'
+							},
+							{
+								name: 'm2',
+								amd: 'm2amd',
+								cjs: 'm2cjs',
+								global: 'm2glob',
+								param: 'm2param'
+							}
+						];
+					}
+				},
+				'common/testWithDependencies.js'
+			);
+
+			genericTest(
+				{
+					templateName: 'common'
+				},
+				'common/testWithoutDependencies.js'
+			);
+		});
+	});
+
+	describe('node', () => {
+		it('should return a umd compatible script', () => {
+			genericTest(
+				{
+					templateName: 'node',
+					exports() {
+						return 'Foo.Bar';
+					}
+				},
+				'node/testExports.js'
+			);
+
+			genericTest(
+				{
+					templateName: 'node',
+					dependencies() {
+						return [
+							'm0',
+							{
+								name: 'm1',
+								amd: 'm1amd',
+								cjs: 'm1cjs',
+								global: 'm1glob',
+								param: 'm1param'
+							},
+							{
+								name: 'm2',
+								amd: 'm2amd',
+								cjs: 'm2cjs',
+								global: 'm2glob',
+								param: 'm2param'
+							}
+						];
+					}
+				},
+				'node/testWithDependencies.js'
+			);
+
+			genericTest(
+				{
+					templateName: 'node'
+				},
+				'node/testWithoutDependencies.js'
+			);
+		});
+	});
+
+	describe('umd / returnExports', () => {
+		it('should return a umd compatible script', () => {
+			genericTest(
+				{
+					exports() {
+						return 'Foo.Bar';
+					}
+				},
+				'returnExports/testExports.js'
+			);
+
+			genericTest(
+				{
+					namespace() {
+						return 'Foo.Bar';
+					}
+				},
+				'returnExports/testNamespace.js'
+			);
+
+			genericTest(
+				{
+					dependencies() {
+						return [
+							'm0',
+							{
+								name: 'm1',
+								amd: 'm1amd',
+								cjs: 'm1cjs',
+								global: 'm1glob',
+								param: 'm1param'
+							},
+							{
+								name: 'm2',
+								amd: 'm2amd',
+								cjs: 'm2cjs',
+								global: 'm2glob',
+								param: 'm2param'
+							}
+						];
+					}
+				},
+				'returnExports/testWithDependencies.js'
+			);
+
+			genericTest(
+				{},
+				'returnExports/testWithoutDependencies.js'
+			);
+
+			genericTest(
+				{
+					templateName: 'amdNodeWeb'
+				},
+				'returnExports/testWithoutDependencies.js'
+			);
+		});
+	});
+
+	describe('web', () => {
+		it('should return a umd compatible script', () => {
+			genericTest(
+				{
+					templateName: 'web',
+					exports() {
+						return 'Foo.Bar';
+					}
+				},
+				'web/testExports.js'
+			);
+
+			genericTest(
+				{
+					templateName: 'web',
+					namespace() {
+						return 'Foo.Bar';
+					}
+				},
+				'web/testNamespace.js'
+			);
+
+			genericTest(
+				{
+					templateName: 'web',
+					dependencies() {
+						return [
+							'm0',
+							{
+								name: 'm1',
+								amd: 'm1amd',
+								cjs: 'm1cjs',
+								global: 'm1glob',
+								param: 'm1param'
+							},
+							{
+								name: 'm2',
+								amd: 'm2amd',
+								cjs: 'm2cjs',
+								global: 'm2glob',
+								param: 'm2param'
+							}
+						];
+					}
+				},
+				'web/testWithDependencies.js'
+			);
+
+			genericTest(
+				{
+					templateName: 'web'
+				},
+				'web/testWithoutDependencies.js'
+			);
+		});
 	});
 });
