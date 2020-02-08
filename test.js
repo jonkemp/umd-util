@@ -5,7 +5,7 @@ const tempy = require('tempy');
 const umdify = require('./index.js');
 
 const genericTest = async (options, fixtureFilename) => {
-	const compare = fs.readFileSync(path.join(__dirname, 'test', 'fixture', fixtureFilename), 'utf-8');
+	const compare = fs.readFileSync(path.join(__dirname, 'fixture', fixtureFilename), 'utf-8');
 	const assertContents = contents => {
 		try {
 			assert.equal(contents, compare, `Wrapped file content is different from test template ${fixtureFilename}`);
@@ -17,9 +17,9 @@ const genericTest = async (options, fixtureFilename) => {
 	const tempDirectory = tempy.directory();
 
 	options.destination = tempDirectory;
-	await umdify('test/foo.js', options);
+	await umdify('fixture/foo.js', options);
 
-	const actual = fs.readFileSync(path.join(tempDirectory, 'test/foo.js'), 'utf-8');
+	const actual = fs.readFileSync(path.join(tempDirectory, 'fixture/foo.js'), 'utf-8');
 
 	assertContents(actual);
 };
