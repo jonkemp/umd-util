@@ -217,6 +217,8 @@ You can also use [umd-templates](https://www.npmjs.com/package/umd-templates), u
 
 ### umdify(source, options?)
 
+### umdify.sync(source, options?)
+
 #### source
 
 Type: `string`  
