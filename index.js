@@ -80,11 +80,11 @@ module.exports = async (src, opts) => {
 			text = 'returnExports';
 		}
 		text = path.join(__dirname, 'templates', `${text}.js`);
-		text = fs.readFileSync(text);
+		text = await readFile(text);
 	} else if (options.templateSource) {
 		text = options.templateSource;
 	} else {
-		text = fs.readFileSync(options.template);
+		text = await readFile(options.template);
 	}
 
 	const compiled = _template(text);
@@ -98,4 +98,35 @@ module.exports = async (src, opts) => {
 
 	await makeDir(path.dirname(umdFile));
 	await writeFileAtomic(umdFile, output);
+};
+
+module.exports.sync = (src, opts) => {
+	const options = { ...defaultOptions, ...opts };
+
+	let text = '';
+
+	if (options.templateName) {
+		text = options.templateName;
+		if (text === 'amdNodeWeb') {
+			text = 'returnExports';
+		}
+		text = path.join(__dirname, 'templates', `${text}.js`);
+		text = fs.readFileSync(text);
+	} else if (options.templateSource) {
+		text = options.templateSource;
+	} else {
+		text = fs.readFileSync(options.template);
+	}
+
+	const compiled = _template(text);
+	const data = buildFileTemplateData(src, options);
+	const fileContent = fs.readFileSync(src, 'utf8');
+	const umdFile = path.join(options.destination, src);
+
+	data.contents = fileContent;
+
+	const output = compiled(data);
+
+	makeDir.sync(path.dirname(umdFile));
+	fs.writeFileSync(umdFile, output);
 };
