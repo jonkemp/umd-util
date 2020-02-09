@@ -69,7 +69,7 @@ Then, in the build script:
 const umdify = require('umd-util');
 
 umdify.sync('src/foo.js', {
-	destination: 'dist'
+    destination: 'dist'
 });
 ```
 
@@ -108,25 +108,25 @@ Then, in the build script:
 const umdify = require('umd-util');
 
 umdify.sync('src/foo.js', {
-	dependencies: function(file) {
-		return [
-			{
-				name: 'moduleName1',
-				amd: 'moduleName1_amd',
-				cjs: 'moduleName1_cjs',
-				global: 'moduleName1_glob',
-				param: 'moduleName1'
-			},
-			{
-				name: 'moduleName2',
-				amd: 'moduleName2_amd',
-				cjs: 'moduleName2_cjs',
-				global: 'moduleName2_glob',
-				param: 'moduleName2'
-			}
-		];
-	},
-	destination: 'dist'
+    dependencies: function(file) {
+        return [
+            {
+                name: 'moduleName1',
+                amd: 'moduleName1_amd',
+                cjs: 'moduleName1_cjs',
+                global: 'moduleName1_glob',
+                param: 'moduleName1'
+            },
+            {
+                name: 'moduleName2',
+                amd: 'moduleName2_amd',
+                cjs: 'moduleName2_cjs',
+                global: 'moduleName2_glob',
+                param: 'moduleName2'
+            }
+        ];
+    },
+    destination: 'dist'
 });
 ```
 
@@ -166,13 +166,13 @@ Then, in the build script:
 const umdify = require('umd-util');
 
 umdify.sync('src/foo.js', {
-	exports: function(file) {
-		return 'Foo.Bar';
-	},
-	namespace: function(file) {
-		return 'Foo.Bar';
-	}
-	destination: 'dist'
+    exports: function(file) {
+        return 'Foo.Bar';
+    },
+    namespace: function(file) {
+        return 'Foo.Bar';
+    }
+    destination: 'dist'
 });
 ```
 
@@ -270,20 +270,20 @@ Specifies the item (or for CommonJS, *item's*) which the module will export.
 For non CommonJS, this value should be a string specifying the exported item.
 ```js
 {
-	exports: function (file) {
-		return 'Foo.Bar';
-	}
+    exports: function (file) {
+        return 'Foo.Bar';
+    }
 }
 ```
 For CommonJS, this value should be an object with keys specifying the names and values specifying the exported items.
 ```js
 {
-	exports: function (file) {
-		return {
-			'Foo': 'Foo',
-			'FooBar': 'Foo.Bar'
-		};
-	}
+    exports: function (file) {
+        return {
+            'Foo': 'Foo',
+            'FooBar': 'Foo.Bar'
+        };
+    }
 }
 ```
 
@@ -297,9 +297,9 @@ Default: `function(file) {
 Specifies the global namespace to export to. Only used for Web globals.
 ```js
 {
-	namespace: function (file) {
-		return 'My.Global.Namespace';
-	}
+    namespace: function (file) {
+        return 'My.Global.Namespace';
+    }
 }
 ```
 
@@ -311,7 +311,7 @@ Default: `none`
 Specifies the name of the template to use. Available template names are `amd`, `amdNodeWeb`, `amdCommonWeb`, `amdWeb`, `common`, `node`, `returnExports` and `web`. If specified, overrides the template and templateSource.
 ```
 {
-  templateName: 'amdNodeWeb'
+    templateName: 'amdNodeWeb'
 }
 ```
 
@@ -323,7 +323,7 @@ Default: `none`
 Specifies the lodash template source to use when wrapping input files. If specified, overrides template.
 ```
 {
-  templateSource: 'module.exports = <%= exports %>'
+    templateSource: 'module.exports = <%= exports %>'
 }
 ```
 
@@ -335,7 +335,7 @@ Default: `path.join(__dirname, 'templates/returnExports.js')`
 Specifies the path to a file containing a lodash template to use when wrapping input files.
 ```
 {
-	template: '/path/to/my/template'
+    template: '/path/to/my/template'
 }
 ```
 
