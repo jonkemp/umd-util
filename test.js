@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
 const tempy = require('tempy');
+const beautify = require('js-beautify').js;
 const umdify = require('./index.js');
 
 const genericTest = async (options, fixtureFilename) => {
@@ -419,6 +420,63 @@ describe('umdify', () => {
 				'web/testWithoutDependencies.js'
 			);
 		});
+	});
+});
+
+describe('templateSource', () => {
+	it('should return a umd compatible script', () => {
+		const compare = fs.readFileSync(path.join(__dirname, 'fixture', 'templateSource/testTemplateSource.js'), 'utf-8');
+		const beautifyOptions = {
+			indent_with_tabs: true
+		};
+		const assertContents = contents => {
+			try {
+				assert.equal(beautify(contents, beautifyOptions), beautify(compare, beautifyOptions), `Wrapped file content is different from test template web/testExports.js`);
+			} catch(e) {
+				console.log(e);
+				process.exit(0);
+			}
+		};
+		const tempDirectory = tempy.directory();
+
+		umdify.sync('fixture/foo.js', {
+			templateSource: `(function(f) {
+	if (typeof exports === "object" && typeof module !== "undefined") {
+		module.exports = f()
+	} else if (typeof define === "function" && define.amd) {
+		define([], f)
+	} else {
+		var g;
+		if (typeof window !== "undefined") {
+			g = window
+		} else if (typeof global !== "undefined") {
+			g = global
+		} else if (typeof self !== "undefined") {
+			g = self
+		} else {
+			g = this
+		}
+		g.<%= namespace %> = f()
+	}
+})(function() {
+	var define, module, exports;
+	module = {
+		exports: (exports = {})
+	};
+
+	<%= contents %>
+
+	return module.exports;
+});`,
+			namespace() {
+				return 'Foo.Bar';
+			},
+			destination: tempDirectory
+		});
+
+		const actual = fs.readFileSync(path.join(tempDirectory, 'fixture/foo.js'), 'utf-8');
+
+		assertContents(actual);
 	});
 });
 
