@@ -68,7 +68,7 @@ Then, in the build script:
 ```js
 const umdify = require('umd-util');
 
-umdify('src/foo.js', {
+umdify.sync('src/foo.js', {
 	destination: 'dist'
 });
 ```
@@ -107,7 +107,7 @@ Then, in the build script:
 ```js
 const umdify = require('umd-util');
 
-umdify('src/foo.js', {
+umdify.sync('src/foo.js', {
 	dependencies: function(file) {
 		return [
 			{
@@ -165,7 +165,7 @@ Then, in the build script:
 ```js
 const umdify = require('umd-util');
 
-umdify('src/foo.js', {
+umdify.sync('src/foo.js', {
 	exports: function(file) {
 		return 'Foo.Bar';
 	},
