@@ -39,7 +39,7 @@ The UMD pattern typically attempts to offer compatibility with the most popular 
 * web / [templates/web.js](test/fixture/web/testWithDependencies.js)
   Defines a module that works in browser globals.
 
-See more variation options that can be added as [templates onto this project](https://github.com/eduardolundgren/gulp-umd/tree/master/templates) on the [UMD (Universal Module Definition) patterns](https://github.com/umdjs/umd).
+See more variation options that can be added as [templates onto this project](https://github.com/jonkemp/umd-util/tree/master/templates) on the [UMD (Universal Module Definition) patterns](https://github.com/umdjs/umd).
 
 
 ## Install
@@ -300,6 +300,30 @@ Specifies the global namespace to export to. Only used for Web globals.
 	namespace: function (file) {
 		return 'My.Global.Namespace';
 	}
+}
+```
+
+##### templateName
+
+Type: `string`  
+Default: `none`
+
+Specifies the name of the template to use. Available template names are `amd`, `amdNodeWeb`, `amdCommonWeb`, `amdWeb`, `common`, `node`, `returnExports` and `web`. If specified, overrides the template and templateSource.
+```
+{
+  templateName: 'amdNodeWeb'
+}
+```
+
+##### templateSource
+
+Type: `string`  
+Default: `none`
+
+Specifies the lodash template source to use when wrapping input files. If specified, overrides template.
+```
+{
+  templateSource: 'module.exports = <%= exports %>'
 }
 ```
 
