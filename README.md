@@ -212,6 +212,7 @@ In order to use any of the variations defined on the [UMD (Universal Module Defi
 
 You can also use [umd-templates](https://www.npmjs.com/package/umd-templates), using the `patternName.path` property if `template` option is used, and `patternName.template` if `templateSource` is used. 
 
+---
 | **Like us a lot?** Help others know why you like us! **Review this package on [pkgreview.dev](https://pkgreview.dev/npm/umd-util)** | ➡   | [![Review us on pkgreview.dev](https://i.ibb.co/McjVMfb/pkgreview-dev.jpg)](https://pkgreview.dev/npm/umd-util) |
 | ----------------------------------------------------------------------------------------------------------------------------------------- | --- | --------------------------------------------------------------------------------------------------------------------- |
 
