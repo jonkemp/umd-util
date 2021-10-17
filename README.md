@@ -1,4 +1,4 @@
-# umd-util [![Build Status](https://travis-ci.com/jonkemp/umd-util.svg?branch=master)](https://travis-ci.com/jonkemp/umd-util)
+# umd-util ![Build Status](https://github.com/jonkemp/umd-util/actions/workflows/main.yml/badge.svg?branch=master)
 
 > Export JavaScript files in UMD (Universal Module Definition) format.
 
