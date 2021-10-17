@@ -431,7 +431,7 @@ describe('templateSource', () => {
 		};
 		const assertContents = contents => {
 			try {
-				assert.equal(beautify(contents, beautifyOptions), beautify(compare, beautifyOptions), `Wrapped file content is different from test template web/testExports.js`);
+				assert.equal(beautify(contents, beautifyOptions), beautify(compare, beautifyOptions), 'Wrapped file content is different from test template web/testExports.js');
 			} catch(e) {
 				console.log(e);
 				process.exit(0);
@@ -485,7 +485,7 @@ describe('umdify.sync', () => {
 		const compare = fs.readFileSync(path.join(__dirname, 'fixture', 'web/testExports.js'), 'utf-8');
 		const assertContents = contents => {
 			try {
-				assert.equal(contents, compare, `Wrapped file content is different from test template web/testExports.js`);
+				assert.equal(contents, compare, 'Wrapped file content is different from test template web/testExports.js');
 			} catch(e) {
 				console.log(e);
 				process.exit(0);
