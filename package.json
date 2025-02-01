@@ -2,14 +2,15 @@
 	"name": "umd-util",
 	"version": "2.0.1",
 	"description": "Export JavaScript files in UMD (Universal Module Definition) format.",
-	"main": "index.js",
+	"type": "module",
+	"main": "index.mjs",
 	"scripts": {
 		"lint": "eslint *.js --max-warnings 0",
 		"lint:fix": "eslint *.js --fix --max-warnings 0",
-		"test": "mocha test.js"
+		"test": "mocha test.mjs"
 	},
 	"files": [
-		"index.js",
+		"index.mjs",
 		"templates/"
 	],
 	"repository": "jonkemp/umd-util",
@@ -33,15 +34,17 @@
 	},
 	"homepage": "https://github.com/jonkemp/umd-util#readme",
 	"devDependencies": {
-		"babel-eslint": "^10.0.3",
-		"eslint": "^8.12.0",
-		"js-beautify": "^1.14.0",
-		"mocha": "^9.2.2",
-		"tempy": "^1.0.1"
+		"@babel/eslint-parser": "^7.26.5",
+		"@eslint/js": "^9.19.0",
+		"eslint": "^9.19.0",
+		"globals": "^15.14.0",
+		"js-beautify": "^1.15.1",
+		"mocha": "^11.1.0",
+		"tempy": "^3.1.0"
 	},
 	"dependencies": {
-		"lodash.template": "^4.5.0",
-		"make-dir": "^3.1.0",
-		"write-file-atomic": "^4.0.1"
+		"make-dir": "^5.0.0",
+		"underscore": "^1.13.7",
+		"write-file-atomic": "^6.0.0"
 	}
 }

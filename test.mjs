@@ -1,12 +1,17 @@
-const fs = require('fs');
-const path = require('path');
-const assert = require('assert');
-const tempy = require('tempy');
-const beautify = require('js-beautify').js;
-const umdify = require('./index.js');
+import fs from 'fs';
+import path from 'path';
+import assert from 'assert';
+import { temporaryDirectory } from 'tempy';
+import pkg from 'js-beautify';
+import umdify from './index.mjs';
+import { fileURLToPath } from 'url';
+
+const { js: beautify } = pkg;
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const genericTest = async (options, fixtureFilename) => {
-	const compare = fs.readFileSync(path.join(__dirname, 'fixture', fixtureFilename), 'utf-8');
+	const compare = fs.readFileSync(path.join(path.dirname(import.meta.url), 'fixture', fixtureFilename), 'utf-8');
 	const assertContents = contents => {
 		try {
 			assert.equal(contents, compare, `Wrapped file content is different from test template ${fixtureFilename}`);
@@ -15,7 +20,7 @@ const genericTest = async (options, fixtureFilename) => {
 			process.exit(0);
 		}
 	};
-	const tempDirectory = tempy.directory();
+	const tempDirectory = temporaryDirectory();
 
 	options.destination = tempDirectory;
 	await umdify('fixture/foo.js', options);
@@ -437,7 +442,7 @@ describe('templateSource', () => {
 				process.exit(0);
 			}
 		};
-		const tempDirectory = tempy.directory();
+		const tempDirectory = temporaryDirectory();
 
 		umdify.sync('fixture/foo.js', {
 			templateSource: `(function(f) {
@@ -491,7 +496,7 @@ describe('umdify.sync', () => {
 				process.exit(0);
 			}
 		};
-		const tempDirectory = tempy.directory();
+		const tempDirectory = temporaryDirectory();
 
 		umdify.sync('fixture/foo.js', {
 			templateName: 'web',
