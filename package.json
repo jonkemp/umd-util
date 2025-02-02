@@ -5,8 +5,8 @@
 	"type": "module",
 	"main": "index.mjs",
 	"scripts": {
-		"lint": "eslint *.js --max-warnings 0",
-		"lint:fix": "eslint *.js --fix --max-warnings 0",
+		"lint": "eslint \"*.{js,mjs}\" --max-warnings 0",
+		"lint:fix": "eslint \"*.{js,mjs}\" --fix --max-warnings 0",
 		"test": "mocha test.mjs"
 	},
 	"files": [
@@ -44,7 +44,6 @@
 	},
 	"dependencies": {
 		"make-dir": "^5.0.0",
-		"underscore": "^1.13.7",
 		"write-file-atomic": "^6.0.0"
 	}
 }

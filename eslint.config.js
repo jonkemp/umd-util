@@ -8,7 +8,7 @@ export default [
 	},
 	{
 		languageOptions: {
-			ecmaVersion: 2018,
+			ecmaVersion: 'latest',
 			sourceType: 'module'
 		},
 		rules: {
